@@ -32,5 +32,11 @@ public class TryWithResources {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            throw new IOException();
+        } catch (IOException e) {
+            Throwable[] secondaryException = e.getSuppressed();
+        }
     }
 }
