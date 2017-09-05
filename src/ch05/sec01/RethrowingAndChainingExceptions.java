@@ -1,22 +1,25 @@
 package ch05.sec01;
 
-import com.oracle.tools.packager.Log;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class RethrowingAndChainingExceptions {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        read("words");
+//        read("words");
 
         try {
             throw new SQLException();
         } catch (SQLException e) {
-            throw new ClassNotFoundException();
+            Throwable throwable = new ClassNotFoundException();
+            System.out.println(e.getCause());
+            System.out.println(throwable.initCause(e));
+            throw (ClassNotFoundException) throwable;
         }
     }
 
@@ -25,7 +28,7 @@ public class RethrowingAndChainingExceptions {
         try {
             Scanner in = new Scanner(Paths.get(filename));
         } catch (Exception e) {
-            Log.debug(e);
+            System.out.println(e);
             throw e;
         }
     }
